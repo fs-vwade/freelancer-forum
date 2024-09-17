@@ -90,7 +90,7 @@ function new_freelancer() {
 	const freelancer = {
 		name: random_choice(names),
 		occupation: random_choice(occupations),
-		price: Math.round((1 + Math.round(50 * random(4))) * 10),
+		price: Math.round((1 + Math.round(99 * random(4))) * 10),
 	};
 
 	// TODO -- remove used values from arrays
@@ -99,6 +99,9 @@ function new_freelancer() {
 }
 
 function random(curve = 1) {
+	function sigmoid(x) {
+		return 1 / (1 + Math.exp(-x));
+	}
 	return Math.pow(2 * Math.abs(Math.random() - 0.5), curve);
 }
 
@@ -130,6 +133,19 @@ function fill_table() {
 			`$${freelancers[i].price}`,
 		];
 	}
+}
+
+function start_interval(incoming) {
+	if (incoming) {
+		clearInterval(incoming);
+	}
+	// delay takes longer as more freelancers are added to the list
+	const delay = 1000 * (0.5 + freelancers.length * random(2));
+	const id = setInterval(() => {
+		new_freelancer();
+		$render();
+	}, delay);
+	return id;
 }
 
 /* Render */
@@ -167,20 +183,7 @@ function $render() {
 	)}`;
 }
 
-function start_interval(incoming) {
-	if (incoming) {
-		clearInterval(incoming);
-	}
-	const delay = 1000 * (0.5 + freelancers.length * random(2));
-	const id = setInterval(() => {
-		new_freelancer();
-		$render();
-	}, delay);
-	return id;
-}
-
 /* Script */
-let DELAY = 1000;
 let last_id;
 $render();
 setInterval(() => {
