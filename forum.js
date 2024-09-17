@@ -108,13 +108,18 @@ function random_choice(arr) {
 	return arr[random_index];
 }
 
+/** Calculates the correct average starting price of the freelancers
+ *
+ * @param {Array} arr
+ * @returns the average starting price of the listed freelancers
+ */
 function average_price(arr) {
 	const reduced =
 		arr.reduce((c, p) => {
 			return c + p;
 		}) / arr.length;
 
-	return Math.round(reduced * 100) / 100;
+	return Math.round(reduced * 100) / 100; // costs rounded to the nearest cent
 }
 
 function fill_table() {
@@ -162,11 +167,22 @@ function $render() {
 	)}`;
 }
 
+function start_interval(incoming) {
+	if (incoming) {
+		clearInterval(incoming);
+	}
+	const delay = 1000 * (0.5 + freelancers.length * random(2));
+	const id = setInterval(() => {
+		new_freelancer();
+		$render();
+	}, delay);
+	return id;
+}
+
 /* Script */
 let DELAY = 1000;
+let last_id;
 $render();
 setInterval(() => {
-	new_freelancer();
-	$render();
-	DELAY = 1000 * (0.5 + freelancers.length * random(2));
-}, DELAY);
+	last_id = start_interval(last_id);
+}, 3000);
