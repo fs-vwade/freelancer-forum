@@ -17,6 +17,40 @@ const names = [
 	"Mary",
 	"Mark",
 	"Opal",
+	"Celise",
+	"Amber",
+	"August",
+	"Hunter",
+	"Deborah",
+	"Terrence",
+	"Travis",
+	"Hannah",
+	"Max",
+	"Tristen",
+	"Corey",
+	"Fernie",
+	"Cory",
+	"Cody",
+	"Carl",
+	"Damien",
+	"Shayla",
+	"Kim",
+	"Timothy",
+	"Boris",
+	"Sergey",
+	"Victor",
+	"Victoria",
+	"Marques",
+	"Francine",
+	"Bordeaux",
+	"Clevis",
+	"Lewis",
+	"Matt",
+	"Jasmine",
+	"Jade",
+	"Sasha",
+	"Mary",
+	"Alexy",
 ];
 const occupations = [
 	"Writer",
@@ -56,18 +90,20 @@ function new_freelancer() {
 	const freelancer = {
 		name: random_choice(names),
 		occupation: random_choice(occupations),
-		price: Math.round(random(4) * 100) * 10,
+		price: Math.round((1 + 10 * random(4)) * 10) * 10,
 	};
+
+	// TODO -- remove used values from arrays
 
 	freelancers.push(freelancer);
 }
 
 function random(curve = 1) {
-	return Math.pow(2 * Math.abs(Math.random - 0.5), curve);
+	return Math.pow(2 * Math.abs(Math.random() - 0.5), curve);
 }
 
 function random_choice(arr) {
-	const random_index = Math.floor(random() * array.length);
+	const random_index = Math.floor(random() * arr.length);
 
 	return arr[random_index];
 }
@@ -127,4 +163,8 @@ function $render() {
 }
 
 /* Script */
-setInterval($render, 1000 * (1 + 2 * random(2)));
+$render();
+setInterval(() => {
+	new_freelancer();
+	$render();
+}, 1000 * (1 + 4 * random(3)));
