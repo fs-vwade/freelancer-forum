@@ -90,7 +90,7 @@ function new_freelancer() {
 	const freelancer = {
 		name: random_choice(names),
 		occupation: random_choice(occupations),
-		price: Math.round((1 + 10 * random(4)) * 10) * 10,
+		price: Math.round((1 + Math.round(50 * random(4))) * 10),
 	};
 
 	// TODO -- remove used values from arrays
@@ -130,8 +130,8 @@ function fill_table() {
 /* Render */
 
 function $render() {
-	const $table = document.getElementById("table");
-	const $average = document.getElementById("average");
+	const $table = document.querySelector("#table");
+	const $average = document.querySelector("#average");
 
 	fill_table();
 
@@ -163,8 +163,10 @@ function $render() {
 }
 
 /* Script */
+let DELAY = 1000;
 $render();
 setInterval(() => {
 	new_freelancer();
 	$render();
-}, 1000 * (1 + 4 * random(3)));
+	DELAY = 1000 * (0.5 + freelancers.length * random(2));
+}, DELAY);
